@@ -1,0 +1,81 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.parent {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(244, 33, 223, 10); 
+    width: 80%; 
+    max-width: 350px; 
+}
+h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #333; 
+}
+.form_group {
+    margin-bottom: 15px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+input[type="text"], input[type="submit"], input[type="button"] {
+    width: 100%;
+    padding: 5px; 
+    border: 2px solid #6a11cb; 
+    border-radius: 5px;
+    font-size: 14px; 
+}
+input[type="submit"] {
+    background-color: #ff4d4d; 
+    color: white; 
+    cursor: pointer; 
+}
+input[type="submit"]:hover {
+    background-color: green; 
+}
+.greens {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    margin-top: 20px;
+    color: green; 
+    font-weight: bold; 
+    font-size: 18px; 
+    height: 50px; 
+}
+.message{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    margin-top: 10px;
+    color:red; 
+    font-weight: bold; 
+    font-size: 18px; 
+    height: 50px; 
+}
+
+.back{
+    margin-top: 10px;
+}
+.small-heading {
+    font-size: 1.2rem; /* Adjust the size as needed */
+}
+#map {
+    height: 97vh;
+    width: 100%;
+    border: 1px solid #ccc;
+}
