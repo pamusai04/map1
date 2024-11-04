@@ -3,71 +3,51 @@ include("./home.php");
 include("./connection.php"); 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize inputs
     $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_SPECIAL_CHARS);
     $branch = filter_input(INPUT_POST, "branch", FILTER_SANITIZE_SPECIAL_CHARS);
     $contact_number = filter_input(INPUT_POST, "contact_number", FILTER_SANITIZE_SPECIAL_CHARS);
     $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
+    $services = filter_input(INPUT_POST, "services", FILTER_SANITIZE_SPECIAL_CHARS);
+    $working_hours = filter_input(INPUT_POST, "working_hours", FILTER_SANITIZE_SPECIAL_CHARS);
     $latitude = filter_input(INPUT_POST, "latitude", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $longitude = filter_input(INPUT_POST, "longitude", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 
-    // Initialize an array to store error messages
     $errors = [];
 
-    // Validate bank name (should not be empty and should contain only letters and spaces)
-    if (empty($name)) {
-        $errors[] = "Please enter the bank name.";
-    } elseif (!preg_match("/^[a-zA-Z\s]+$/", $name)) {
-        $errors[] = "Bank name should contain only letters and spaces.";
+    if (empty($name) || !preg_match("/^[a-zA-Z\s]+$/", $name)) {
+        $errors[] = "Please enter a valid bank name.";
     }
 
-    // Validate branch (same as bank name)
-    if (empty($branch)) {
-        $errors[] = "Please enter the branch name.";
-    } elseif (!preg_match("/^[a-zA-Z\s]+$/", $branch)) {
-        $errors[] = "Branch name should contain only letters and spaces.";
+    if (empty($branch) || !preg_match("/^[a-zA-Z\s]+$/", $branch)) {
+        $errors[] = "Please enter a valid branch name.";
     }
 
-    // Validate contact number (should contain only digits and be of a reasonable length)
-    if (empty($contact_number)) {
-        $errors[] = "Please enter the contact number.";
-    } elseif (!preg_match("/^\d{10}$/", $contact_number)) {
-        $errors[] = "Contact number should be a valid 10-digit number.";
+    if (empty($contact_number) || !preg_match("/^\d{10}$/", $contact_number)) {
+        $errors[] = "Contact number should be a 10-digit number.";
     }
 
-    // Validate email address
-    if (empty($email)) {
-        $errors[] = "Please enter the email address.";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Please enter a valid email address.";
     }
 
-    // Validate latitude (should be a valid float number between -90 and 90)
-    if (empty($latitude)) {
-        $errors[] = "Please enter the latitude.";
-    } elseif (!is_numeric($latitude) || $latitude < -90 || $latitude > 90) {
+    if (empty($latitude) || !is_numeric($latitude) || $latitude < -90 || $latitude > 90) {
         $errors[] = "Latitude should be a number between -90 and 90.";
     }
 
-    // Validate longitude (should be a valid float number between -180 and 180)
-    if (empty($longitude)) {
-        $errors[] = "Please enter the longitude.";
-    } elseif (!is_numeric($longitude) || $longitude < -180 || $longitude > 180) {
+    if (empty($longitude) || !is_numeric($longitude) || $longitude < -180 || $longitude > 180) {
         $errors[] = "Longitude should be a number between -180 and 180.";
     }
 
-    // If there are no errors, proceed with the database insertion
     if (empty($errors)) {
-        // Check if the bank location already exists
         $sql_q = "SELECT * FROM banks WHERE name = '$name' AND latitude = '$latitude' AND longitude = '$longitude'";
         $result = mysqli_query($conn, $sql_q);
-
+        
         if (mysqli_num_rows($result) > 0) {
             echo '<div class="message">Bank location already exists!</div>';
         } else {
-            // Insert new bank location into the database
-            $sql = "INSERT INTO banks (name, branch, contact_number, email, latitude, longitude) 
-                    VALUES ('$name', '$branch', '$contact_number', '$email', '$latitude', '$longitude')";
+            $sql = "INSERT INTO banks (name, branch, contact_number, email, services, working_hours, latitude, longitude) 
+                    VALUES ('$name', '$branch', '$contact_number', '$email', '$services', '$working_hours', '$latitude', '$longitude')";
+                    
             try {
                 mysqli_query($conn, $sql);
                 echo '<script>window.location.href="index.php";</script>';
@@ -77,13 +57,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     } else {
-        // Display errors if any
         foreach ($errors as $error) {
             echo '<div class="message">' . $error . '</div>';
         }
     }
 }
-
 ?>
 
 

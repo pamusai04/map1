@@ -1,6 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 // Database connection parameters
 $db_server = "08wwf.h.filess.io";  // Hostname
@@ -9,6 +7,7 @@ $db_pass = "96c0af19416fd82aaea106064115b748751f24a4"; // Database password
 $db_name = "map_sheepstore";       // Database name
 $db_port = 3307;                    // Port number
 
+$conn = ""; 
 // Initialize message variable
 $message = "";
 

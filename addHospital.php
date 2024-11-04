@@ -146,6 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
     <script src="./scritp.js"></script>
+    
     <script>
         // Button click navigation
         document.getElementById('goToIndex').onclick = function() {
